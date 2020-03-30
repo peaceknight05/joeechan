@@ -25,7 +25,7 @@ async def nine_nine(ctx):
     ]
 
     response = random.choice(brooklyn_99_quotes)
-    await message.channel.delete_messages([ctx.message])
+    # await message.channel.delete_messages([ctx.message])
     await ctx.send(response)
 
 @bot.command(name='roll_dice', help='Simulates rolling dice.')
@@ -34,7 +34,7 @@ async def roll(ctx, number_of_dice: int, number_of_sides: int):
         str(random.choice(range(1, number_of_sides + 1)))
         for _ in range(number_of_dice)
     ]
-    await message.channel.delete_messages([ctx.message])
+    # await message.channel.delete_messages([ctx.message])
     await ctx.send(', '.join(dice))
 
 @bot.event
