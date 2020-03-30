@@ -1,0 +1,2 @@
+git+https://github.com/Rapptz/discord.py@rewrite
+python-dotenv==0.12.0
