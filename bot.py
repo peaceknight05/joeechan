@@ -46,9 +46,9 @@ async def info(ctx):
     embed.add_field(name="Creator", value="Jonathan Tan", inline=True)
     embed.add_field(name="Version", value=VERSION, inline=True)
     embed.set_footer(text="I was created in my author's freetime. But he has no more, so don't expect much updates.")
-    icon = discord.File("assets/img/icon.png", filename="icon.png")
+    file = discord.File("assets/img/icon.png", filename="icon.png")
     embed.set_thumbnail(url="attachment://icon.png")
-    await ctx.send(embed=embed)
+    await ctx.send(file=file, embed=embed)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
