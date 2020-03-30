@@ -6,6 +6,7 @@ from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+VERSION = os.getenv('VERSION')
 
 bot = commands.Bot(command_prefix='^')
 
@@ -25,7 +26,7 @@ async def nine_nine(ctx):
     ]
 
     response = random.choice(brooklyn_99_quotes)
-    # await message.channel.delete_messages([ctx.message])
+    await ctx.message.delete()
     await ctx.send(response)
 
 @bot.command(name='roll_dice', help='Simulates rolling dice.')
@@ -34,8 +35,19 @@ async def roll(ctx, number_of_dice: int, number_of_sides: int):
         str(random.choice(range(1, number_of_sides + 1)))
         for _ in range(number_of_dice)
     ]
-    # await message.channel.delete_messages([ctx.message])
+    await ctx.message.delete()
     await ctx.send(', '.join(dice))
+
+@bot.command(name='info', help='Get info about the bot.')
+async def info(ctx):
+    await ctx.message.delete()
+    embed=discord.Embed(title="Info", description="Info about the bot.", color=0xb1c900)
+    embed.set_author(name="Joneechan")
+    embed.add_field(name="Creator", value="Jonathan Tan", inline=True)
+    embed.add_field(name="Version", value=VERSION, inline=True)
+    embed.set_footer(text="I was created in my author's freetime. But he has no more, so don't expect much updates.")
+    embed.set_thumbnail("./assets/img/icon.png")
+    await ctx.send(embed=embed)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
