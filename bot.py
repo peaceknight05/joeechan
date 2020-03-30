@@ -42,11 +42,10 @@ async def roll(ctx, number_of_dice: int, number_of_sides: int):
 async def info(ctx):
     await ctx.message.delete()
     embed=discord.Embed(title="Info", description="Info about the bot.", color=0xb1c900)
-    embed.set_author(name="Joneechan")
     embed.add_field(name="Creator", value="Jonathan Tan", inline=True)
     embed.add_field(name="Version", value=VERSION, inline=True)
     embed.set_footer(text="I was created in my author's freetime. But he has no more, so don't expect much updates.")
-    embed.set_thumbnail("./assets/img/icon.png")
+    embed.set_thumbnail(url="./assets/img/icon.png")
     await ctx.send(embed=embed)
 
 @bot.event
