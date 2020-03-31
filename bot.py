@@ -55,6 +55,7 @@ async def on_message(message):
         return
     if 'yoyoke' in message.content.split(" "):
         await message.channel.send("HAHA YOYOKE!")
+    bot.process_commands(message)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
