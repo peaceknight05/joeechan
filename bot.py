@@ -70,5 +70,7 @@ async def on_command_error(ctx, error):
         await ctx.send('You do not have the correct role for this command.')
     elif isinstance(error, commands.errors.UserInputError):
         await ctx.send('Argument error.')
+    elif isinstance(error, asyncio.TimeoutError):
+        await ctx.send('Timeout. It has been 30 seconds.')
 
 bot.run(TOKEN)
