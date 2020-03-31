@@ -38,8 +38,10 @@ class Fun(commands.Cog):
         """Chooses between multiple choices."""
         if len(choices) < 2: raise commands.errors.UserInputError
         await ctx.message.delete()
+        hide = False
+        if choices[-1] == "-hideChoices": hide = True
         embed=discord.Embed(title="Choice", description="For indecisive people.", color=0x32cd32)
-        embed.add_field(name="Choices", value=', '.join(choices), inline=False)
+        embed.add_field(name="Choices", value=("Hidden by user" if hide else ', '.join(choices)), inline=False)
         embed.add_field(name="Outcome", value=random.choice(choices), inline=False)
         embed.set_footer(text="Fun Fact: You can put more than one word as an argument in any command that accepts strings. Surround the argument in double inverted commas \"like this\".")
         await ctx.send(embed=embed)
