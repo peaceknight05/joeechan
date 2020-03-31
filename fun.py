@@ -17,7 +17,10 @@ class Fun(commands.Cog):
             raise commands.errors.UserInputError
 
         await ctx.message.delete()
-        result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
+        if rolls > 100:
+            result = f'Total ({rolls} die): {sum([random.randint(1, limit) for r in range(rolls)])}\n_Compressed to reduce spam_'
+        else:
+            result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
         await ctx.send(result)
 
     @commands.Cog.listener()
@@ -35,7 +38,7 @@ class Fun(commands.Cog):
         await ctx.message.delete()
         await ctx.send(random.choice(choices))
 
-    @commands.command(name='clap', pass_context=True)
+    @commands.command(name='clap', description="You can clap from 0 to 10 claps.", pass_context=True)
     async def clap(self, ctx):
         """A command to clap."""
         claps = random.randint(0,10)
