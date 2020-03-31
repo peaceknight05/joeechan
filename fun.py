@@ -37,7 +37,6 @@ class Fun(commands.Cog):
     async def choose(self, ctx, *choices : str):
         """Chooses between multiple choices."""
         if len(choices) < 2: raise commands.errors.UserInputError
-        await ctx.message.delete()
         hide = False
         if "-hideChoices" in choices:
             hide = True
@@ -46,6 +45,7 @@ class Fun(commands.Cog):
         embed.add_field(name="Choices", value=("Hidden by user" if hide else ', '.join(choices)), inline=False)
         embed.add_field(name="Outcome", value=random.choice(choices), inline=False)
         embed.set_footer(text="Fun Fact: You can put more than one word as an argument in any command that accepts strings. Surround the argument in double inverted commas \"like this\".")
+        await ctx.message.delete()
         await ctx.send(embed=embed)
 
     @commands.command(name='clap', description="You can clap from 0 to 10 claps.", pass_context=True)
