@@ -51,11 +51,11 @@ async def info(ctx):
 
 @bot.event
 async def on_message(message):
+    bot.process_commands(message)
     if message.author == bot.user:
         return
     if 'yoyoke' in message.content.split(" "):
         await message.channel.send("HAHA YOYOKE!")
-    bot.process_commands(message)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
