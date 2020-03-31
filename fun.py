@@ -7,19 +7,21 @@ class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="roll", description="The number of dice rolled cannot exceed 500. The type of dice rolled must be at least a d2 or at most a d100.", pass_context=True)
-    async def roll(self, ctx, dice : str):
+    @commands.command(name="roll", description="The number of dice rolled cannot exceed 500. The type of dice rolled must be at least a d2 or at most a d1000.\nYou can add \"-onlyTotal at the end\" to only show the total.", pass_context=True)
+    async def roll(self, ctx, dice : str, *args : str):
         """Rolls a dice in NdN format."""
         try:
             rolls, limit = map(int, dice.split('d'))
             if rolls > 500: raise commands.errors.UserInputError
-            if limit < 2 or limit > 100: raise commands.errors.UserInputError
+            if limit < 2 or limit > 1000: raise commands.errors.UserInputError
         except Exception:
             raise commands.errors.UserInputError
 
         await ctx.message.delete()
         if rolls > 100:
             result = f'Total ({rolls} die): {sum([random.randint(1, limit) for r in range(rolls)])}\n_Compressed to reduce spam_'
+        elif "-onlyTotal" in args:
+            result = f'Total ({rolls} die): {sum([random.randint(1, limit) for r in range(rolls)])}'
         else:
             result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
         await ctx.send(result)
