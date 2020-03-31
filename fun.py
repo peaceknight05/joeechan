@@ -39,9 +39,9 @@ class Fun(commands.Cog):
         if len(choices) < 2: raise commands.errors.UserInputError
         await ctx.message.delete()
         hide = False
-        if choices[-1] == "-hideChoices":
+        if "-hideChoices" in choices:
             hide = True
-            choices = choices[:-1]
+        choices = [x for x in choices if x[0] != '-']
         embed=discord.Embed(title="Choice", description="For indecisive people.", color=0x32cd32)
         embed.add_field(name="Choices", value=("Hidden by user" if hide else ', '.join(choices)), inline=False)
         embed.add_field(name="Outcome", value=random.choice(choices), inline=False)
