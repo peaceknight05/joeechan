@@ -25,7 +25,7 @@ async def clap(ctx):
 async def roll(ctx, number_of_dice: int, number_of_sides: str):
     if not number_of_sides in ["d4", "d6", "d8", "d10", "d12", "d20", "d100"]:
         raise commands.errors.UserInputError
-    elif number_of_sices > 500:
+    elif number_of_dice > 500:
         await ctx.send("Too many dice (max = 500).")
     else:
         dice = [
@@ -51,11 +51,14 @@ async def info(ctx):
 
 @bot.event
 async def on_message(message):
-    bot.process_commands(message)
     if message.author == bot.user:
         return
-    if 'yoyoke' in message.content.split(" "):
+    if 'yoyoke' in [x.lower() for x in message.content.split(" ")]:
         await message.channel.send("HAHA YOYOKE!")
+    elif message.content.startswith("kids these days") or message.content.startswith("Kids these days"):
+        await message.channel.send("ok boomer")
+    else:
+        await bot.process_commands(message)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
