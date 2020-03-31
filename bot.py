@@ -9,56 +9,31 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 VERSION = os.getenv('VERSION')
 
+startup_extensions = ["fun"]
+
+UPDATES = """Homework function (next minor update - 0.x.0)
+Dice upgrade (next minor change - 0.0.x)
+Exam dates (next minor update - 0.x.0)
+"""
+
 bot = commands.Bot(command_prefix='^')
 
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-@bot.command(name='clap', help="A command to clap.")
-async def clap(ctx):
-    claps = random.randint(0,10)
-    await ctx.message.delete()
-    await ctx.send(f'{ctx.author.mention} failed at clapping!' if claps == 0 else f'{ctx.author.mention} clapped! {":clap:" * claps}')
-
-@bot.command(name='roll_dice', help='Simulates rolling dice.')
-async def roll(ctx, number_of_dice: int, number_of_sides: str):
-    if not number_of_sides in ["d4", "d6", "d8", "d10", "d12", "d20", "d100"]:
-        raise commands.errors.UserInputError
-    elif number_of_dice > 500:
-        await ctx.send("Too many dice (max = 500).")
-    else:
-        dice = [
-            str(random.choice(range(1, int(number_of_sides[1:]) + 1)))
-            for _ in range(number_of_dice)
-        ]
-        await ctx.message.delete()
-        if number_of_dice > 100:
-            await ctx.send(f'Total {number_of_dice}: {sum([int(x) for x in dice])}\n_Collapsed to reduce spam._')
-        else:
-            await ctx.send(', '.join(dice))
-
-@bot.command(name='info', help='Get info about the bot.')
+@bot.command(name='info', decription='Get info about the bot, its creator and future changes.')
 async def info(ctx):
+    """Get info about the bot."""
     await ctx.message.delete()
     embed=discord.Embed(title="Info", description="Info about the bot.", color=0xb1c900)
     embed.add_field(name="Creator", value="Jonathan Tan", inline=True)
     embed.add_field(name="Version", value=VERSION, inline=True)
+    embed.add_field(name="Future Updates", value=UPDATES, inline=False)
     embed.set_footer(text="I was created in my author's freetime. But he has no more, so don't expect much updates.")
     file = discord.File("assets/img/icon.png", filename="icon.png")
     embed.set_thumbnail(url="attachment://icon.png")
     await ctx.send(file=file, embed=embed)
-
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-    if 'yoyoke' in [x.lower() for x in message.content.split(" ")]:
-        await message.channel.send("HAHA YOYOKE!")
-    elif message.content.startswith("kids these days") or message.content.startswith("Kids these days"):
-        await message.channel.send("ok boomer")
-    else:
-        await bot.process_commands(message)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
@@ -76,5 +51,12 @@ async def on_command_error(ctx, error):
         await ctx.send('Argument error.')
     elif isinstance(error, asyncio.TimeoutError):
         await ctx.send('Timeout. It has been 30 seconds.')
+
+for extension in startup_extensions:
+    try:
+        bot.load_extension(extension)
+    except Exception as e:
+        exc = '{}: {}'.format(type(e).__name__, e)
+        print('Failed to load extension {}\n{}'.format(extension, exc))
 
 bot.run(TOKEN)
