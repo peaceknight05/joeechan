@@ -1,11 +1,74 @@
 import discord
 from discord.ext import commands
 import random
+import requests
+import json
+import math
+from datetime import datetime
+
+key = "poAUDhKVDwQYFQQXhkMlC6j6B0H6lTp2mzmtKgwR"
 
 class Fun(commands.Cog):
     """Fun Stuff."""
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name="slap", description="After being slapped, a user cannot slap anyone else for 30 seconds as he/she recoils in shock.")
+    async def slap(self, ctx, member: discord.Member):
+        """Slaps some one. In style."""
+        # check if slapper is in shock
+        res = requests.get(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}')
+        j = json.loads(res.text)
+        if j == None: j = {}
+        if str(ctx.author.id) in j.keys():
+            if datetime.fromtimestamp(j[str(ctx.author.id)]["end"]) < datetime.now():
+                requests.delete(f'https://joneechan-610b3.firebaseio.com/shock/{ctx.author.id}.json?auth={key}')
+                await ctx.message.delete()
+                await ctx.send(f'{ctx.author.mention} has recovered from their shock.')
+                if member.id == ctx.author.id:
+                    await ctx.send(f'{ctx.author.mention} slapped themself!')
+                else:
+                    await ctx.send(f'{ctx.author.mention} slapped {member.mention}!')
+                if not str(member.id) in j.keys():
+                    payload = {str(member.id): {
+                        "ID": member.id,
+                        "end": datetime.now().timestamp()+30
+                    }}
+                    requests.patch(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}', data=json.dumps(payload))
+                    await ctx.send(f'{member.mention} is now recoiling from the shock of being slapped!')
+                else:
+                    if member.id == ctx.author.id:
+                        await ctx.send(f'{member.mention} is already recoiling from shock! What a dumbass.')
+                    else:
+                        await ctx.send(f'{member.mention} is already recoiling from shock! What a bully.')
+            else:
+                await ctx.send(f'You are still recoiling from shock. {math.round(j[str(ctx.author.id)]["end"]-datetime.now().timestamp())} seconds of shock remaining.')
+        else:
+            await ctx.message.delete()
+            if member.id == ctx.author.id:
+                await ctx.send(f'{ctx.author.mention} slapped themself!')
+            else:
+                await ctx.send(f'{ctx.author.mention} slapped {member.mention}!')
+            if not str(member.id) in j.keys():
+                payload = {str(member.id): {
+                    "ID": member.id,
+                    "end": datetime.now().timestamp()+30
+                }}
+                requests.patch(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}', data=json.dumps(payload))
+                await ctx.send(f'{member.mention} is now recoiling from the shock of being slapped!')
+            else:
+                if member.id == ctx.author.id:
+                    await ctx.send(f'{member.mention} is already recoiling from shock! What a dumbass.')
+                else:
+                    await ctx.send(f'{member.mention} is already recoiling from shock! What a bully.')
+
+    @commands.command(name="pat", description="Because why not. But that person may not like it tho.")
+    async def pat(self, ctx, member: discord.Member):
+        """Pats some one. KAWAIII!"""
+        await ctx.message.delete()
+        await ctx.send(f'{ctx.author.mention} pet {member.mention}!')
+        if random.randint(0,3) == 0:
+            await ctx.send(f'{member.mention} swatted {ctx.author.mention}\'s hand away!')
 
     @commands.command(name="roll", description="The number of dice rolled cannot exceed 500. The type of dice rolled must be at least a d2 or at most a d1000.\nYou can add \"-onlyTotal at the end\" to only show the total.", pass_context=True)
     async def roll(self, ctx, dice : str, *args : str):
@@ -30,6 +93,7 @@ class Fun(commands.Cog):
     async def on_message(self, message):
         if message.author == self.bot.user:
             return
+
         if 'yoyoke' in [x.lower() for x in message.content.split(" ")]:
             await message.channel.send("HAHA YOYOKE!")
         if message.content.startswith("kids these days") or message.content.startswith("Kids these days"):
