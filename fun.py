@@ -57,10 +57,14 @@ class Fun(commands.Cog):
                 requests.patch(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}', data=json.dumps(payload))
                 await ctx.send(f'{member.mention} is now recoiling from the shock of being slapped!')
             else:
-                if member.id == ctx.author.id:
-                    await ctx.send(f'{member.mention} is already recoiling from shock! What a dumbass.')
+                if datetime.fromtimestamp(j[str(member.id)]["end"]) < datetime.now():
+                    requests.delete(f'https://joneechan-610b3.firebaseio.com/shock/{ctx.author.id}.json?auth={key}')
+                    await ctx.send(f'{member.mention} has recovered from their shock. But is brutally sent into shock again.')
                 else:
-                    await ctx.send(f'{member.mention} is already recoiling from shock! What a bully.')
+                    if member.id == ctx.author.id:
+                        await ctx.send(f'{member.mention} is already recoiling from shock! What a dumbass.')
+                    else:
+                        await ctx.send(f'{member.mention} is already recoiling from shock! What a bully.')
 
     @commands.command(name="pat", description="Because why not. But that person may not like it tho.")
     async def pat(self, ctx, member: discord.Member):
