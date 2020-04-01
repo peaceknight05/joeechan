@@ -58,7 +58,10 @@ class Fun(commands.Cog):
                 await ctx.send(f'{member.mention} is now recoiling from the shock of being slapped!')
             else:
                 if datetime.fromtimestamp(j[str(member.id)]["end"]) < datetime.now():
-                    requests.delete(f'https://joneechan-610b3.firebaseio.com/shock/{ctx.author.id}.json?auth={key}')
+                    payload = {
+                        "end": datetime.now().timestamp()+30
+                    }
+                    requests.patch(f'https://joneechan-610b3.firebaseio.com/shock/{str(member.id)}.json?auth={key}', data=json.dumps(payload))
                     await ctx.send(f'{member.mention} has recovered from their shock. But is brutally sent into shock again.')
                 else:
                     if member.id == ctx.author.id:
