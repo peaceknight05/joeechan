@@ -16,7 +16,6 @@ class Fun(commands.Cog):
     @commands.command(name="slap", description="After being slapped, a user cannot slap anyone else for 30 seconds as he/she recoils in shock.")
     async def slap(self, ctx, member: discord.Member):
         """Slaps some one. In style."""
-        # check if slapper is in shock
         res = requests.get(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}')
         j = json.loads(res.text)
         if j == None: j = {}
@@ -74,9 +73,11 @@ class Fun(commands.Cog):
     async def pat(self, ctx, member: discord.Member):
         """Pats some one. KAWAIII!"""
         await ctx.message.delete()
-        await ctx.send(f'{ctx.author.mention} pet {member.mention}!')
         if random.randint(0,3) == 0:
+            await ctx.send(f'{ctx.author.mention} tried to pet {member.mention}!')
             await ctx.send(f'{member.mention} swatted {ctx.author.mention}\'s hand away!')
+        else:
+            await ctx.send(f'{ctx.author.mention} pet {member.mention}!')
 
     @commands.command(name="roll", description="The number of dice rolled cannot exceed 500. The type of dice rolled must be at least a d2 or at most a d1000.\nYou can add \"-onlyTotal at the end\" to only show the total.", pass_context=True)
     async def roll(self, ctx, dice : str, *args : str):
