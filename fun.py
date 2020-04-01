@@ -42,6 +42,7 @@ class Fun(commands.Cog):
                     else:
                         await ctx.send(f'{member.mention} is already recoiling from shock! What a bully.')
             else:
+                await ctx.message.delete()
                 await ctx.send(f'You are still recoiling from shock. {math.floor(j[str(ctx.author.id)]["end"]-datetime.now().timestamp())} seconds of shock remaining.')
         else:
             await ctx.message.delete()
