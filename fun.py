@@ -16,6 +16,10 @@ class Fun(commands.Cog):
     @commands.command(name="slap", description="After being slapped, a user cannot slap anyone else for 30 seconds as he/she recoils in shock.")
     async def slap(self, ctx, member: discord.Member):
         """Slaps some one. In style."""
+
+        slap = discord.File('./assets/img/slap.gif')
+        selfslap = discord.File('./assets/img/selfslap.gif')
+
         res = requests.get(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}')
         j = json.loads(res.text)
         if j == None: j = {}
@@ -27,8 +31,10 @@ class Fun(commands.Cog):
                 await ctx.send(f'{ctx.author.mention} has recovered from their shock.')
                 if member.id == ctx.author.id:
                     await ctx.send(f'{ctx.author.mention} slapped themself!')
+                    await ctx.channel.send(file=selfslap)
                 else:
                     await ctx.send(f'{ctx.author.mention} slapped {member.mention}!')
+                    await ctx.channel.send(file=slap)
                 if not str(member.id) in j.keys():
                     payload = {str(member.id): {
                         "ID": member.id,
@@ -48,8 +54,10 @@ class Fun(commands.Cog):
             await ctx.message.delete()
             if member.id == ctx.author.id:
                 await ctx.send(f'{ctx.author.mention} slapped themself!')
+                await ctx.channel.send(file=selfslap)
             else:
                 await ctx.send(f'{ctx.author.mention} slapped {member.mention}!')
+                await ctx.channel.send(file=slap)
             if not str(member.id) in j.keys():
                 payload = {str(member.id): {
                     "ID": member.id,
@@ -73,12 +81,23 @@ class Fun(commands.Cog):
     @commands.command(name="pat", description="Because why not. But that person may not like it tho.")
     async def pat(self, ctx, member: discord.Member):
         """Pats some one. KAWAIII!"""
+
+        pat = discord.File('.assets/img/pat.gif')
+        selfpat = discord.File('.assets/img/selfpat.png')
+        swat = discord.File('./assets/img/swat.gif')
+
         await ctx.message.delete()
-        if random.randint(0,3) == 0:
-            await ctx.send(f'{ctx.author.mention} tried to pet {member.mention}!')
-            await ctx.send(f'{member.mention} swatted {ctx.author.mention}\'s hand away!')
+        if ctx.author == member:
+            await ctx.send(f'{ctx.author.mention} pet themself! Thats so sad!')
+            await ctx.channel.send(file=selfpat)
         else:
-            await ctx.send(f'{ctx.author.mention} pet {member.mention}!')
+            if random.randint(0,3) == 0:
+                await ctx.send(f'{ctx.author.mention} tried to pet {member.mention}!')
+                await ctx.send(f'{member.mention} swatted {ctx.author.mention}\'s hand away!')
+                await ctx.channel.send(file=swat)
+            else:
+                await ctx.send(f'{ctx.author.mention} pet {member.mention}!')
+                await ctx.channel.send(file=pat)
 
     @commands.command(name="roll", description="The number of dice rolled cannot exceed 500. The type of dice rolled must be at least a d2 or at most a d1000.\nYou can add \"-onlyTotal at the end\" to only show the total.", pass_context=True)
     async def roll(self, ctx, dice : str, *args : str):
