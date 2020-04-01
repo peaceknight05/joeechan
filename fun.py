@@ -23,6 +23,7 @@ class Fun(commands.Cog):
         if str(ctx.author.id) in j.keys():
             if datetime.fromtimestamp(j[str(ctx.author.id)]["end"]) < datetime.now():
                 requests.delete(f'https://joneechan-610b3.firebaseio.com/shock/{ctx.author.id}.json?auth={key}')
+                j.pop(str(ctx.author.id))
                 await ctx.message.delete()
                 await ctx.send(f'{ctx.author.mention} has recovered from their shock.')
                 if member.id == ctx.author.id:
