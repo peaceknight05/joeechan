@@ -1,3 +1,3 @@
 git+https://github.com/Rapptz/discord.py
 python-dotenv==0.12.0
-requests==2.220
+requests==2.22.0
