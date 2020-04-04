@@ -40,7 +40,7 @@ class School(commands.Cog):
             if subject != None:
                 hw = [x for x in hw if (x["subject"] == subject)]
             if len(hw) == 0:
-                await ctx.send("No homework.")
+                await ctx.send("No homework that falls under these conditions.")
                 return
             embed=discord.Embed(title="Homework", description="For the lazy.", color=0xbababa)
             for work in hw:
@@ -53,7 +53,7 @@ class School(commands.Cog):
             if subject != None:
                 hw = [x for x in hw if x["subject"] == subject]
             if len(hw) == 0:
-                await ctx.send("No homework.")
+                await ctx.send("No homework that falls under these conditions.")
                 return
             embed=discord.Embed(title="Homework", description="For the lazy.", color=0xbababa)
             for work in hw:
