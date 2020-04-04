@@ -9,7 +9,7 @@ from datetime import datetime
 key = "poAUDhKVDwQYFQQXhkMlC6j6B0H6lTp2mzmtKgwR"
 
 class Fun(commands.Cog):
-    """Fun Stuff."""
+    """Fun Stuff"""
     def __init__(self, bot):
         self.bot = bot
 

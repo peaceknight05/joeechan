@@ -7,7 +7,7 @@ import datetime
 key = "poAUDhKVDwQYFQQXhkMlC6j6B0H6lTp2mzmtKgwR"
 
 class School(commands.Cog):
-    """Stuff relating to school in general"""
+    """Stuff relating to school in general."""
     def __init__(self, bot):
         self.bot = bot
 
@@ -18,7 +18,7 @@ class School(commands.Cog):
 
     @commands.command(name="homework", pass_context=True, description="You can pass an argument (the subject name) to the command to get the homework for only that subject (works for only one subject).\nThe subjects are in short form (el, mt, em, am, chem, phy, ss, geog, comp, snw, others).\nYou can pass the flag -dueTmr to only see hw due tmr. You procrastinator.\n You can also pass the flag -noOpt to not see optional homework.")
     async def homework(self, ctx, *args : str):
-        """Gives the homework and due date"""
+        """Gives the homework and due date."""
         subject = [x for x in args if x[0] != '-']
         if len(subject) > 1:
             raise commands.errors.UserInputError
