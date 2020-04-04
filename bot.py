@@ -9,11 +9,9 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 VERSION = os.getenv('VERSION')
 
-startup_extensions = ["fun"]
+startup_extensions = ["fun", "school"]
 
-UPDATES = """Homework function (next minor update - 0.x.0)
-Dice upgrade (next minor change - 0.0.x)
-Exam dates (next minor update - 0.x.0)
+UPDATES = """Dice upgrade (next minor change - 0.0.x)
 8 ball (next minor change - 0.0.x)
 awards system (next major change - x.0.0)
 currency (next major change - x.0.0)
