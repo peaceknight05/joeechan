@@ -138,7 +138,7 @@ class Fun(commands.Cog):
             t = " ".join(message.content.split(" ")[:-1])
             s = ""
             for c in t:
-                s += random.choice(c.upper(), c.lower())
+                s += random.choice([c.upper(), c.lower()])
             await message.delete()
             await message.channel.send(s)
 
