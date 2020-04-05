@@ -16,7 +16,7 @@ class School(commands.Cog):
             return ("Subject Representatives" in [x.name for x in ctx.message.author.roles]) or (("House Representatives") in [x.name for x in ctx.message.author.roles])
         return commands.check(predicate)
 
-    @commands.command(name="homework", pass_context=True, description="You can pass an argument (the subject name) to the command to get the homework for only that subject (works for only one subject).\nThe subjects are in short form (el, mt, em, am, chem, phy, ss, geog, comp, snw, others).\nYou can pass the flag -dueTmr to only see hw due tmr. You procrastinator.\n You can also pass the flag -noOpt to not see optional homework.")
+    @commands.command(name="homework", pass_context=True, description="You can pass an argument (the subject name) to the command to get the homework for only that subject (works for only one subject).\nThe subjects are in short form (el, mt, em, am, chem, phy, ss, geog, comp, snw, others).\nYou can pass the flag -dueTmr to only see hw due tmr. You procrastinator.\n You can also pass the flag -noOpt to not see optional homework.\nYou can also pass the flag -pt to only see pt-related homework, or -noPt to not see pt-related homework.")
     async def homework(self, ctx, *args : str):
         """Gives the homework and due date."""
         subject = [x for x in args if x[0] != '-']
@@ -26,6 +26,9 @@ class School(commands.Cog):
             subject = subject[0]
         else:
             subject = None
+        if ("-pt" in args) and ("-noPt" in args):
+            await ctx.send("You cannot have the flags -pt and -noPt at the same time!")
+            raise commands.errors.UserInputError
         if subject != None:
             if not subject in ["el", "mt", "em", "am", "chem", "phy", "ss", "geog", "comp", "snw", "other"]:
                 raise commands.errors.UserInputError
@@ -36,9 +39,9 @@ class School(commands.Cog):
             await ctx.send("No homework.")
             return
         if '-dueTmr' in args:
-            hw = [x for x in j.values() if ((datetime.date.fromtimestamp(x["duedate"])) == (datetime.date.today() + datetime.timedelta(days=1))) and (not ((x["optional"]) and ("-noOpt" in args)))]
+            hw = [x for x in j.values() if ((datetime.date.fromtimestamp(x["duedate"])) == (datetime.date.today() + datetime.timedelta(days=1))) and (not ((x["optional"]) and ("-noOpt" in args))) and (not ((x["pt"]) and ("-noPt" in args))) and (not ((not x["pt"]) and ("-pt" in args)))]
             if subject != None:
-                hw = [x for x in hw if (x["subject"] == subject)]
+                hw = [x for x in hw if (x["subject"] == subject) and (not ((not x["pt"]) and ("-pt" in args)))]
             if len(hw) == 0:
                 await ctx.send("No homework that falls under these conditions.")
                 return
@@ -49,9 +52,9 @@ class School(commands.Cog):
             embed.set_footer(text="I am as reliable as your subject reps, so rely on me at your own risk. I am a bot so I feel no guilt if you miss your homework.")
             await ctx.send(embed=embed)
         else:
-            hw =[x for x in j.values() if (not ((x["optional"]) and ("-noOpt" in args)))]
+            hw =[x for x in j.values() if (not ((x["optional"]) and ("-noOpt" in args))) and (not ((not x["pt"]) and ("-pt" in args)))]
             if subject != None:
-                hw = [x for x in hw if x["subject"] == subject]
+                hw = [x for x in hw if x["subject"] == subject and (not ((not x["pt"]) and ("-pt" in args)))]
             if len(hw) == 0:
                 await ctx.send("No homework that falls under these conditions.")
                 return
@@ -62,7 +65,7 @@ class School(commands.Cog):
             embed.set_footer(text="I am as reliable as your subject reps, so rely on me at your own risk. I am a bot so I feel no guilt if you miss your homework.")
             await ctx.send(embed=embed)
 
-    @commands.command(name="assign", pass_context=True, description="Date should be passed in the format DD/MM. Time should be passed in the format HH:MM in 24 hr format. The subjects are in short form (el, mt, em, am, chem, phy, ss, geog, comp, snw, others). You can pass the flag -optional to mark the homework as optional. If homework with the same name as another is assigned, the old homework is updated. Names are case-sensitive.")
+    @commands.command(name="assign", pass_context=True, description="Date should be passed in the format DD/MM. Time should be passed in the format HH:MM in 24 hr format. The subjects are in short form (el, mt, em, am, chem, phy, ss, geog, comp, snw, others).\nYou can pass the flag -optional to mark the homework as optional.\nYou can add the flag -pt to mark the homework as pt-related.\nIf homework with the same name as another is assigned, the old homework is updated. Names are case-sensitive.")
     @is_rep()
     async def assign(self, ctx, subject : str, title : str, date : str, time : str, *args : str):
         """Adds homework to homework database."""
@@ -75,6 +78,7 @@ class School(commands.Cog):
         payload = {title: {
             "duedate" : datetime.datetime(year=datetime.datetime.now().year, month=int(d[1]), day=int(d[0]), hour=int(t[0]), minute=int(t[1])).timestamp(),
             "optional" : "-optional" in args,
+            "pt" : "-pt" in args,
             "subject" : subject,
             "title" : title,
             "waiting" : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
