@@ -134,7 +134,7 @@ class Fun(commands.Cog):
             await message.channel.send("HAHA YOYOKE!")
         if message.content.startswith("kids these days") or message.content.startswith("Kids these days"):
             await message.channel.send("ok boomer")
-        if (message.content.split(" ")[-1] == '--spongeText') and (len(message.content.split(" ")) > 1)):
+        if (message.content.split(" ")[-1] == '--spongeText') and (len(message.content.split(" ")) > 1):
             t = " ".join(message.content.split(" ")[:-1])
             t = " ".join([random.choice(c.upper(), c.lower()) for c in t])
             await message.delete()
