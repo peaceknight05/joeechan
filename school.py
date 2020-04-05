@@ -45,8 +45,7 @@ class School(commands.Cog):
             if len(hw) == 0:
                 await ctx.send("No homework that falls under these conditions.")
                 return
-            f = [x for x in args if x[0] == "-"]
-            t = ", ".join(f)
+            t = ", ".join(args)
             tags = f'Tags: {t if len(f) > 0 else ""}'
             embed=discord.Embed(title="Homework", description=f'For the lazy.\n{tags}', color=0xbababa)
             for work in hw:
@@ -61,8 +60,7 @@ class School(commands.Cog):
             if len(hw) == 0:
                 await ctx.send("No homework that falls under these conditions.")
                 return
-            f = [x for x in args if x[0] == "-"]
-            t = ", ".join(f)
+            t = ", ".join(args)
             tags = f'Tags: {t if len(f) > 0 else ""}'
             embed=discord.Embed(title="Homework", description=f'For the lazy.\n{tags}', color=0xbababa)
             for work in hw:
