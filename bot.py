@@ -42,6 +42,7 @@ async def on_error(event, *args, **kwargs):
     if event == 'on_message':
         await args[0].author.create_dm()
         await args[0].author.dm_channel.send(f'Unhandled message: {args}\n')
+        await args[0].author.dm_channel.send(kwargs)
         await args[0].author.dm_channel.send("Send this to the bot creator.")
     else:
         raise
