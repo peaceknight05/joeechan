@@ -45,7 +45,7 @@ class School(commands.Cog):
             embed=discord.Embed(title="Homework", description="For the lazy.", color=0xbababa)
             for work in hw:
                 time = datetime.datetime.fromtimestamp(work["duedate"])
-                embed.add_field(name=f'{work["title"].capitalize()} [{work["subject"].upper()}]', value=f'Due tomorrow on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
+                embed.add_field(name=f'{work["title"]} [{work["subject"].upper()}]', value=f'Due tomorrow on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
             embed.set_footer(text="I am as reliable as your subject reps, so rely on me at your own risk. I am a bot so I feel no guilt if you miss your homework.")
             await ctx.send(embed=embed)
         else:
@@ -58,7 +58,7 @@ class School(commands.Cog):
             embed=discord.Embed(title="Homework", description="For the lazy.", color=0xbababa)
             for work in hw:
                 time = datetime.datetime.fromtimestamp(work["duedate"])
-                embed.add_field(name=f'{work["title"].capitalize()} [{work["subject"].upper()}]', value=f'Due on {time.day}/{time.month} on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
+                embed.add_field(name=f'{work["title"]} [{work["subject"].upper()}]', value=f'Due on {time.day}/{time.month} on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
             embed.set_footer(text="I am as reliable as your subject reps, so rely on me at your own risk. I am a bot so I feel no guilt if you miss your homework.")
             await ctx.send(embed=embed)
 
