@@ -62,7 +62,7 @@ class School(commands.Cog):
             embed.set_footer(text="I am as reliable as your subject reps, so rely on me at your own risk. I am a bot so I feel no guilt if you miss your homework.")
             await ctx.send(embed=embed)
 
-    @commands.command(name="assign", pass_context=True, description="Date should be passed in the format DD/MM. Time should be passed in the format HH:MM in 24 hr format. The subjects are in short form (el, mt, em, am, chem, phy, ss, geog, comp, snw, others). You can pass the flag -optional to mark the homework as optional. If homework with the same name as another is assigned, the old homework is updated.")
+    @commands.command(name="assign", pass_context=True, description="Date should be passed in the format DD/MM. Time should be passed in the format HH:MM in 24 hr format. The subjects are in short form (el, mt, em, am, chem, phy, ss, geog, comp, snw, others). You can pass the flag -optional to mark the homework as optional. If homework with the same name as another is assigned, the old homework is updated. Names are case-sensitive.")
     @is_rep()
     async def assign(self, ctx, subject : str, title : str, date : str, time : str, *args : str):
         """Adds homework to homework database."""
