@@ -137,7 +137,8 @@ class Fun(commands.Cog):
         if (message.content.split(" ")[-1] == '--spongeText') and (len(message.content.split(" ") > 1)):
             t = " ".join(message.content.split(" ")[:-1])
             t = " ".join([random.choice(c.upper(), c.lower()) for c in t])
-            await message.edit(content=t)
+            await message.delete()
+            await message.channel.send(t)
 
     @commands.command(name="choose", pass_context=True, description="Must be given at least 2 choices.\nYou can add \"-hideChoices\" to the end to hide the choices and only show the outcome. Do not include \"-\" at the front of any options or it will be taken to be a flag.")
     async def choose(self, ctx, *choices : str):
