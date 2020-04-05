@@ -81,7 +81,7 @@ class School(commands.Cog):
         }}
         requests.patch(f'https://joneechan-610b3.firebaseio.com/homework.json?auth={key}', data=json.dumps(payload))
         await ctx.message.delete()
-        await ctx.send("Done!")
+        await ctx.send("Homework Assigned!")
 
     @commands.command(name="unassign", pass_context=True, description="Do note that the title name is case-sensitive!")
     @is_rep()
