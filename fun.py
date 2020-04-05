@@ -136,8 +136,8 @@ class Fun(commands.Cog):
             await message.channel.send("ok boomer")
         if (message.content.split(" ")[-1] == '--spongeText') and (len(message.content.split(" ")) > 1):
             t = " ".join(message.content.split(" ")[:-1])
-            await message.channel.send(t)
-            t = " ".join([random.choice(c.upper(), c.lower()) for c in t])
+            t = [random.choice(c.upper(), c.lower()) for c in t]
+            t = " ".join(t)
             await message.delete()
             await message.channel.send(t)
 
