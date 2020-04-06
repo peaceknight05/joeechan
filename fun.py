@@ -17,6 +17,9 @@ class Fun(commands.Cog):
     async def slap(self, ctx, member: discord.Member):
         """Slaps some one. In style."""
 
+        if ctx.author.role.name == "TRYHARD":
+            await ctx.send("HAHA THE TRYHARD WANTS TO SLAP SOMEONE! LMAO KOMEDI GOLD! " + ctx.author.mention)
+
         slap = discord.File('./assets/img/slap.gif')
         selfslap = discord.File('./assets/img/selfslap.gif')
 
