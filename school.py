@@ -105,7 +105,7 @@ class School(commands.Cog):
             return
         requests.delete(f'https://joneechan-610b3.firebaseio.com/homework/{title}.json?auth={key}')
         await ctx.message.delete()
-        await ctx.send("Done")
+        await ctx.send("Homework Unassigned!")
 
     @commands.command(name="chase", pass_context=True, description="")
     async def chase(self, ctx, *args : str):
