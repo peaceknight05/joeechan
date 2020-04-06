@@ -17,7 +17,7 @@ class Fun(commands.Cog):
     async def slap(self, ctx, member: discord.Member):
         """Slaps some one. In style."""
 
-        if ctx.author.role.name == "TRYHARD":
+        if "TRYHARD" in [x.name for x in ctx.message.author.roles]:
             await ctx.send("HAHA THE TRYHARD WANTS TO SLAP SOMEONE! LMAO KOMEDI GOLD! " + ctx.author.mention)
             return
 
