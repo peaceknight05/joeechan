@@ -52,7 +52,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         await ctx.send('You do not have the correct role for this command.')
     elif isinstance(error, commands.errors.UserInputError):
-        await ctx.send('Argument error.\n_You can do ^help <command> to dee the syntax and notes on valid inputs._')
+        await ctx.send('Argument error.\n_You can do ^help <command> to see the syntax and notes on valid inputs._')
     elif isinstance(error, asyncio.TimeoutError):
         await ctx.send('Timeout. It has been 30 seconds.')
 
