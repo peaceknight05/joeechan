@@ -23,21 +23,25 @@ class Fun(commands.Cog):
             return
 
         if member.id == 686768245818130433:
-            await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.author.mention+" has been sent into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
             end = datetime.now() + dt.timedelta(days=1)
             res = requests.get(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}')
             j = json.loads(res.text)
             if str(ctx.author.id) in j.keys():
+                if datetime.fromtimestamp(j[str(ctx.author.id)]["end"]) > datetime.now():
+                    await ctx.send("HAH! Puny mortal. Trying to slap me when you are still suffering from my holy slap! Pathetic.")
+                    return
                 payload = {
                     "end": end.timestamp()
                 }
                 requests.patch(f'https://joneechan-610b3.firebaseio.com/shock/{str(ctx.author.id)}.json?auth={key}', data=json.dumps(payload))
+                await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.author.mention+" has been sent into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
             else:
                 payload = {str(ctx.author.id): {
                     "ID" : ctx.message.author.id,
                     "end" : end.timestamp()
                 }}
                 requests.patch(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}', data=json.dumps(payload))
+                await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.author.mention+" has been sent into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
             return
 
         slap = discord.File('./assets/img/slap.gif')
