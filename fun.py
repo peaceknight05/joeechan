@@ -19,11 +19,11 @@ class Fun(commands.Cog):
         """Slaps some one. In style."""
 
         if "TRYHARD" in [x.name for x in ctx.message.author.roles]:
-            await ctx.send("HAHA THE TRYHARD WANTS TO SLAP SOMEONE! LMAO KOMEDI GOLD! " + ctx.message.author.mention)
+            await ctx.send("HAHA THE TRYHARD WANTS TO SLAP SOMEONE! LMAO KOMEDI GOLD! " + ctx.author.mention)
             return
 
         if member.id == 686768245818130433:
-            await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.message.author.mention+" has been sent into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
+            await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.author.mention+" has been sent into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
             end = datetime.now() + dt.timedelta(days=1)
             res = requests.get(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}')
             j = json.loads(res.text)
@@ -31,7 +31,7 @@ class Fun(commands.Cog):
                 payload = {
                     "end": end.timestamp()
                 }
-                requests.patch(f'https://joneechan-610b3.firebaseio.com/shock/{str(ctx.message.author.id)}.json?auth={key}', data=json.dumps(payload))
+                requests.patch(f'https://joneechan-610b3.firebaseio.com/shock/{str(ctx.author.id)}.json?auth={key}', data=json.dumps(payload))
             else:
                 payload = {str(ctx.author.id): {
                     "ID" : ctx.message.author.id,
