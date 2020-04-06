@@ -19,6 +19,7 @@ class Fun(commands.Cog):
 
         if ctx.author.role.name == "TRYHARD":
             await ctx.send("HAHA THE TRYHARD WANTS TO SLAP SOMEONE! LMAO KOMEDI GOLD! " + ctx.author.mention)
+            return
 
         slap = discord.File('./assets/img/slap.gif')
         selfslap = discord.File('./assets/img/selfslap.gif')
