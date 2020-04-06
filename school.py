@@ -46,7 +46,7 @@ class School(commands.Cog):
                 await ctx.send("No homework that falls under these conditions.")
                 return
             t = ", ".join(args)
-            tags = f'Tags: {t if len(t) > 0 else ""}'
+            tags = f'Tags: {t}' if len(t) > 0 else ""
             embed=discord.Embed(title="Homework", description=f'For the lazy.\n{tags}', color=0xbababa)
             for work in hw:
                 time = datetime.datetime.fromtimestamp(work["duedate"])
@@ -61,7 +61,7 @@ class School(commands.Cog):
                 await ctx.send("No homework that falls under these conditions.")
                 return
             t = ", ".join(args)
-            tags = f'Tags: {t if len(t) > 0 else ""}'
+            tags = f'Tags: {t}' if len(t) > 0 else ""
             embed=discord.Embed(title="Homework", description=f'For the lazy.\n{tags}', color=0xbababa)
             for work in hw:
                 time = datetime.datetime.fromtimestamp(work["duedate"])
