@@ -23,7 +23,7 @@ class Fun(commands.Cog):
             return
 
         if member == bot.user:
-            await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.author.mention+" has been send into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
+            await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.author.mention+" has been sent into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
             end = datetime.now() + dt.timedelta(days=1)
             if str(ctx.author.id) in j.keys():
                 payload = {
