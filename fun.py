@@ -5,6 +5,7 @@ import requests
 import json
 import math
 from datetime import datetime
+import datetime as dt
 
 key = "poAUDhKVDwQYFQQXhkMlC6j6B0H6lTp2mzmtKgwR"
 
@@ -19,6 +20,22 @@ class Fun(commands.Cog):
 
         if "TRYHARD" in [x.name for x in ctx.message.author.roles]:
             await ctx.send("HAHA THE TRYHARD WANTS TO SLAP SOMEONE! LMAO KOMEDI GOLD! " + ctx.author.mention)
+            return
+
+        if member == bot.user:
+            await ctx.send("**YOU DARE TRY TO SLAP ME** _I will holy slap you!_\n"+ctx.author.mention+" has been send into a 1-day long shock by my holy slap! Maybe that will teach you peasants a lesson.")
+            end = datetime.now() + dt.timedelta(days=1)
+            if str(ctx.author.id) in j.keys():
+                payload = {
+                    "end": end.timestamp()
+                }
+                requests.patch(f'https://joneechan-610b3.firebaseio.com/shock/{str(ctx.author.id)}.json?auth={key}', data=json.dumps(payload))
+            else:
+                payload = {str(ctx.author.id): {
+                    "ID" : ctx.author.id,
+                    "end" : end.timestamp()
+                }}
+                requests.patch(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}', data=json.dumps(payload))
             return
 
         slap = discord.File('./assets/img/slap.gif')
