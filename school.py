@@ -20,13 +20,14 @@ class School(commands.Cog):
     async def homework(self, ctx, *args : str):
         """Gives the homework and due date."""
         subject = [x for x in args if x[0] != '-']
+        flags = [x for x in args if (x == "-pt") or (x == "-noPt") or (x == "-dueTmr") or (x == "-noOpt")]
         if len(subject) > 1:
             raise commands.errors.UserInputError
         elif len(subject) == 1:
             subject = subject[0]
         else:
             subject = None
-        if ("-pt" in args) and ("-noPt" in args):
+        if ("-pt" in flags) and ("-noPt" in flags):
             await ctx.send("You cannot have the flags -pt and -noPt at the same time!")
             raise commands.errors.UserInputError
         if subject != None:
@@ -38,10 +39,10 @@ class School(commands.Cog):
         if j == None:
             await ctx.send("No homework.")
             return
-        if '-dueTmr' in args:
-            hw = [x for x in j.values() if ((datetime.date.fromtimestamp(x["duedate"])) == (datetime.date.today() + datetime.timedelta(days=1))) and (not ((x["optional"]) and ("-noOpt" in args))) and (not ((x["pt"]) and ("-noPt" in args))) and (not ((not x["pt"]) and ("-pt" in args)))]
+        if '-dueTmr' in flags:
+            hw = [x for x in j.values() if ((datetime.date.fromtimestamp(x["duedate"])) == (datetime.date.today() + datetime.timedelta(days=1))) and (not ((x["optional"]) and ("-noOpt" in flags))) and (not ((x["pt"]) and ("-noPt" in flags))) and (not ((not x["pt"]) and ("-pt" in flags)))]
             if subject != None:
-                hw = [x for x in hw if (x["subject"] == subject) and (not ((x["pt"]) and ("-noPt" in args))) and (not ((not x["pt"]) and ("-pt" in args)))]
+                hw = [x for x in hw if (x["subject"] == subject) and (not ((x["pt"]) and ("-noPt" in flags))) and (not ((not x["pt"]) and ("-pt" in flags)))]
             if len(hw) == 0:
                 await ctx.send("No homework that falls under these conditions.")
                 return
@@ -50,13 +51,13 @@ class School(commands.Cog):
             embed=discord.Embed(title="Homework", description=f'For the lazy.\n{tags}', color=0xbababa)
             for work in hw:
                 time = datetime.datetime.fromtimestamp(work["duedate"])
-                embed.add_field(name=f'{work["title"]} [{work["subject"].upper()}]', value=f'Due tomorrow on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
+                embed.add_field(name=f'{work["title"]} [{work["subject"].upper()+(" - PT" if work["pt"] else "")}]', value=f'Due tomorrow on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
             embed.set_footer(text="I am as reliable as your subject reps, so rely on me at your own risk. I am a bot so I feel no guilt if you miss your homework.")
             await ctx.send(embed=embed)
         else:
-            hw =[x for x in j.values() if (not ((x["optional"]) and ("-noOpt" in args))) and (not ((x["pt"]) and ("-noPt" in args))) and (not ((not x["pt"]) and ("-pt" in args)))]
+            hw =[x for x in j.values() if (not ((x["optional"]) and ("-noOpt" in flags))) and (not ((x["pt"]) and ("-noPt" in flags))) and (not ((not x["pt"]) and ("-pt" in flags)))]
             if subject != None:
-                hw = [x for x in hw if x["subject"] == subject and (not ((x["pt"]) and ("-noPt" in args))) and (not ((not x["pt"]) and ("-pt" in args)))]
+                hw = [x for x in hw if x["subject"] == subject and (not ((x["pt"]) and ("-noPt" in flags))) and (not ((not x["pt"]) and ("-pt" in flags)))]
             if len(hw) == 0:
                 await ctx.send("No homework that falls under these conditions.")
                 return
@@ -65,7 +66,7 @@ class School(commands.Cog):
             embed=discord.Embed(title="Homework", description=f'For the lazy.\n{tags}', color=0xbababa)
             for work in hw:
                 time = datetime.datetime.fromtimestamp(work["duedate"])
-                embed.add_field(name=f'{work["title"]} [{work["subject"].upper()}]', value=f'Due on {time.day}/{time.month} on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
+                embed.add_field(name=f'{work["title"]} [{work["subject"].upper()+(" - PT" if work["pt"] else "")}]', value=f'Due on {time.day}/{time.month} on {time.hour}:{"{:0>2d}".format(time.minute)}.{" This homework is optional." if work["optional"] else ""}')
             embed.set_footer(text="I am as reliable as your subject reps, so rely on me at your own risk. I am a bot so I feel no guilt if you miss your homework.")
             await ctx.send(embed=embed)
 
