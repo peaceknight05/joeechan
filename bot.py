@@ -15,7 +15,8 @@ UPDATES = """Dice upgrade (next minor change - 0.0.x)
 8 ball (next minor change - 0.0.x)
 awards system (next major change - x.0.0)
 currency (next major change - x.0.0)
-games (next major change = x.0.0)
+games (next major change - x.0.0)
+reminders (next major change - x.0.0)
 """
 
 bot = commands.Bot(command_prefix='^')
