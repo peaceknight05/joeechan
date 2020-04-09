@@ -22,7 +22,7 @@ class Fun(commands.Cog):
             await ctx.send("HAHA THE TRYHARD WANTS TO SLAP SOMEONE! LMAO KOMEDI GOLD! " + ctx.author.mention)
             return
 
-        if member.id == 686768245818130433:
+        if member.id == 686768245818130433 or member.id == 555770128705257502:
             end = datetime.now() + dt.timedelta(days=1)
             res = requests.get(f'https://joneechan-610b3.firebaseio.com/shock.json?auth={key}')
             j = json.loads(res.text)
